@@ -1,4 +1,9 @@
 name: Publish Docker Image
+
+concurrency:
+  group: ci-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -13,7 +18,7 @@ env:
 jobs:
   build-and-push-image:
     name: Build Docker container and push it to GitHub registry
-    runs-on: ubuntu-latest
+    runs-on: lab
     permissions:
       packages: write
       contents: read
